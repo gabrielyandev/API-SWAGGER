@@ -1,0 +1,292 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Itens",
+        "description": "Documentação da API de Itens para o ambiente Hostinger",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor Local"
+        },
+        {
+            "url": "https://seu-dominio.com",
+            "description": "Servidor de Produção"
+        }
+    ],
+    "paths": {
+        "/api/itens": {
+            "get": {
+                "tags": [
+                    "Itens"
+                ],
+                "summary": "Lista todos os itens",
+                "operationId": "4c3b86065ce3907b2d817ed6a30535f5",
+                "responses": {
+                    "200": {
+                        "description": "Listagem de itens",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Item"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Itens"
+                ],
+                "summary": "Cria um novo item",
+                "operationId": "63675e58833f47ae6d8835953374caca",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreItemRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Item"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        },
+        "/api/itens/{id}": {
+            "get": {
+                "tags": [
+                    "Itens"
+                ],
+                "summary": "Exibe detalhes de um item",
+                "operationId": "86de44264fcf3d9e26f4735550458856",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do item",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Item"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Item não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Itens"
+                ],
+                "summary": "Atualiza um item existente",
+                "operationId": "cc559851a23f99e8a7662c2672b63121",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateItemRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Item"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Item não encontrado"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Itens"
+                ],
+                "summary": "Remove um item",
+                "operationId": "6f5221222dc86a58dd48988ece7157c5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Item removido com sucesso"
+                    },
+                    "404": {
+                        "description": "Item não encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "StoreItemRequest": {
+                "title": "Store Item Request",
+                "description": "Request body para criação de Item",
+                "required": [
+                    "nome",
+                    "preco"
+                ],
+                "properties": {
+                    "nome": {
+                        "type": "string",
+                        "example": "Notebook"
+                    },
+                    "descricao": {
+                        "type": "string",
+                        "example": "Notebook de alta performance"
+                    },
+                    "preco": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4500.5
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "ativo",
+                        "enum": [
+                            "ativo",
+                            "inativo"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateItemRequest": {
+                "title": "Update Item Request",
+                "description": "Request body para atualização de Item",
+                "properties": {
+                    "nome": {
+                        "type": "string",
+                        "example": "Notebook Atualizado"
+                    },
+                    "descricao": {
+                        "type": "string",
+                        "example": "Descricao atualizada"
+                    },
+                    "preco": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4800
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "inativo",
+                        "enum": [
+                            "ativo",
+                            "inativo"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "Item": {
+                "title": "Item",
+                "description": "Modelo de Item",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "Notebook"
+                    },
+                    "descricao": {
+                        "type": "string",
+                        "example": "Notebook de alta performance"
+                    },
+                    "preco": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 4500.5
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "ativo",
+                        "enum": [
+                            "ativo",
+                            "inativo"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01T12:00:00Z"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Itens",
+            "description": "Itens"
+        }
+    ]
+}
