@@ -25,6 +25,9 @@ class Item extends Model
 {
     use HasFactory;
 
+    // Força o model a usar a conexão do firebird, enquanto a API (login/etc) usa o MySQL padrão
+    protected $connection = 'firebird';
+
     // Conecta exatamente nessa tabela no Firebird
     protected $table = 'CABECALHO_DE_NOTA';
 

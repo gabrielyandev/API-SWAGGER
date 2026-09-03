@@ -45,12 +45,12 @@ return [
 
         'firebird' => [
             'driver'   => 'firebird',
-            'host'     => env('DB_HOST', 'localhost'),
-            'port'     => env('DB_PORT', '3050'),
-            'database' => env('DB_DATABASE', '/path/to/database.fdb'),
-            'username' => env('DB_USERNAME', 'sysdba'),
-            'password' => env('DB_PASSWORD', 'masterkey'),
-            'charset'  => env('DB_CHARSET', 'UTF8'),
+            'host'     => env('FB_HOST', 'localhost'),
+            'port'     => env('FB_PORT', '3050'),
+            'database' => env('FB_DATABASE', '/path/to/database.fdb'),
+            'username' => env('FB_USERNAME', 'sysdba'),
+            'password' => env('FB_PASSWORD', 'masterkey'),
+            'charset'  => env('FB_CHARSET', 'UTF8'),
             'role'     => null,
         ],
 
