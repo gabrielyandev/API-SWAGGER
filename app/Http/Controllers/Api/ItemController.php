@@ -14,6 +14,7 @@ class ItemController extends Controller
         path: "/api/itens",
         summary: "Lista todos os itens",
         tags: ["Itens"],
+        security: [["sanctum" => []]],
         responses: [
             new OA\Response(
                 response: 200,
@@ -34,6 +35,7 @@ class ItemController extends Controller
         path: "/api/itens",
         summary: "Cria um novo item",
         tags: ["Itens"],
+        security: [["sanctum" => []]],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(ref: "#/components/schemas/StoreItemRequest")
@@ -57,6 +59,7 @@ class ItemController extends Controller
         path: "/api/itens/{id}",
         summary: "Exibe detalhes de um item",
         tags: ["Itens"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -89,6 +92,7 @@ class ItemController extends Controller
         path: "/api/itens/{id}",
         summary: "Atualiza um item existente",
         tags: ["Itens"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
@@ -127,6 +131,7 @@ class ItemController extends Controller
         path: "/api/itens/{id}",
         summary: "Remove um item",
         tags: ["Itens"],
+        security: [["sanctum" => []]],
         parameters: [
             new OA\Parameter(
                 name: "id",
