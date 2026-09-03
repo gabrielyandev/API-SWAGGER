@@ -8,30 +8,43 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: "Item",
-    title: "Item",
-    description: "Modelo de Item",
+    title: "Cabeçalho de Nota",
+    description: "Modelo representando os dados do cabeçalho de nota do banco Firebird",
+    required: ["TIPO", "DATA_EMISSAO"],
     properties: [
-        new OA\Property(property: "id", type: "integer", example: 1),
-        new OA\Property(property: "nome", type: "string", example: "Notebook"),
-        new OA\Property(property: "descricao", type: "string", example: "Notebook de alta performance"),
-        new OA\Property(property: "preco", type: "number", format: "float", example: 4500.50),
-        new OA\Property(property: "status", type: "string", enum: ["ativo", "inativo"], example: "ativo"),
-        new OA\Property(property: "created_at", type: "string", format: "date-time", example: "2023-10-01T12:00:00Z"),
-        new OA\Property(property: "updated_at", type: "string", format: "date-time", example: "2023-10-01T12:00:00Z")
+        new OA\Property(property: "INTERNO", type: "integer", example: 12345),
+        new OA\Property(property: "TIPO", type: "string", example: "SAIDA"),
+        new OA\Property(property: "PEDIDO_CLIENTE", type: "string", example: "PED-2023-001"),
+        new OA\Property(property: "CONTROLE_DE_NOTA", type: "integer", example: 9876),
+        new OA\Property(property: "DATA_EMISSAO", type: "string", format: "date-time", example: "2023-10-01 12:00:00"),
+        new OA\Property(property: "TOTAL_NOTA", type: "number", format: "float", example: 4500.50),
+        new OA\Property(property: "SITUACAO", type: "string", example: "F")
     ]
 )]
 class Item extends Model
 {
     use HasFactory;
 
+    // Conecta exatamente nessa tabela no Firebird
+    protected $table = 'CABECALHO_DE_NOTA';
+
+    // Chave primária customizada
+    protected $primaryKey = 'INTERNO';
+
+    // Desativa os campos created_at e updated_at (comum em bancos legados)
+    public $timestamps = false;
+
     protected $fillable = [
-        'nome',
-        'descricao',
-        'preco',
-        'status',
+        'TIPO',
+        'PEDIDO_CLIENTE',
+        'CONTROLE_DE_NOTA',
+        'DATA_EMISSAO',
+        'TOTAL_NOTA',
+        'SITUACAO',
     ];
 
     protected $casts = [
-        'preco' => 'float',
+        'TOTAL_NOTA' => 'float',
+        'DATA_EMISSAO' => 'datetime',
     ];
 }

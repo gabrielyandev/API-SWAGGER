@@ -9,14 +9,15 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: "StoreItemRequest",
-    title: "Store Item Request",
-    description: "Request body para criação de Item",
-    required: ["nome", "preco"],
+    title: "Requisição para Criação de Cabeçalho de Nota",
+    required: ["TIPO", "DATA_EMISSAO"],
     properties: [
-        new OA\Property(property: "nome", type: "string", example: "Notebook"),
-        new OA\Property(property: "descricao", type: "string", example: "Notebook de alta performance"),
-        new OA\Property(property: "preco", type: "number", format: "float", example: 4500.50),
-        new OA\Property(property: "status", type: "string", enum: ["ativo", "inativo"], example: "ativo")
+        new OA\Property(property: "TIPO", type: "string", example: "SAIDA"),
+        new OA\Property(property: "PEDIDO_CLIENTE", type: "string", example: "PED-2023-001"),
+        new OA\Property(property: "CONTROLE_DE_NOTA", type: "integer", example: 9876),
+        new OA\Property(property: "DATA_EMISSAO", type: "string", format: "date-time", example: "2023-10-01 12:00:00"),
+        new OA\Property(property: "TOTAL_NOTA", type: "number", format: "float", example: 4500.50),
+        new OA\Property(property: "SITUACAO", type: "string", example: "F")
     ]
 )]
 class StoreItemRequest extends FormRequest
@@ -37,10 +38,12 @@ class StoreItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'preco' => 'required|numeric|min:0',
-            'status' => 'nullable|in:ativo,inativo',
+            'TIPO' => 'required|string|max:10',
+            'PEDIDO_CLIENTE' => 'nullable|string|max:20',
+            'CONTROLE_DE_NOTA' => 'nullable|integer',
+            'DATA_EMISSAO' => 'required|date',
+            'TOTAL_NOTA' => 'nullable|numeric',
+            'SITUACAO' => 'nullable|string|max:30',
         ];
     }
 }

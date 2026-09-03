@@ -9,13 +9,14 @@ use OpenApi\Attributes as OA;
 
 #[OA\Schema(
     schema: "UpdateItemRequest",
-    title: "Update Item Request",
-    description: "Request body para atualização de Item",
+    title: "Requisição para Atualização de Cabeçalho de Nota",
     properties: [
-        new OA\Property(property: "nome", type: "string", example: "Notebook Atualizado"),
-        new OA\Property(property: "descricao", type: "string", example: "Descricao atualizada"),
-        new OA\Property(property: "preco", type: "number", format: "float", example: 4800.00),
-        new OA\Property(property: "status", type: "string", enum: ["ativo", "inativo"], example: "inativo")
+        new OA\Property(property: "TIPO", type: "string", example: "SAIDA"),
+        new OA\Property(property: "PEDIDO_CLIENTE", type: "string", example: "PED-2023-001"),
+        new OA\Property(property: "CONTROLE_DE_NOTA", type: "integer", example: 9876),
+        new OA\Property(property: "DATA_EMISSAO", type: "string", format: "date-time", example: "2023-10-01 12:00:00"),
+        new OA\Property(property: "TOTAL_NOTA", type: "number", format: "float", example: 4500.50),
+        new OA\Property(property: "SITUACAO", type: "string", example: "F")
     ]
 )]
 class UpdateItemRequest extends FormRequest
@@ -36,10 +37,12 @@ class UpdateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'sometimes|required|string|max:255',
-            'descricao' => 'nullable|string',
-            'preco' => 'sometimes|required|numeric|min:0',
-            'status' => 'nullable|in:ativo,inativo',
+            'TIPO' => 'sometimes|string|max:10',
+            'PEDIDO_CLIENTE' => 'nullable|string|max:20',
+            'CONTROLE_DE_NOTA' => 'nullable|integer',
+            'DATA_EMISSAO' => 'sometimes|date',
+            'TOTAL_NOTA' => 'nullable|numeric',
+            'SITUACAO' => 'nullable|string|max:30',
         ];
     }
 }
