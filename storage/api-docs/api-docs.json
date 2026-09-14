@@ -11,11 +11,58 @@
             "description": "Servidor Local"
         },
         {
-            "url": "https://seu-dominio.com",
+            "url": "https://api.suporteourobras.com",
             "description": "Servidor de Produção"
         }
     ],
     "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Realiza o login e retorna o Token Bearer",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|laravel_sanctum_token_aqui"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login realizado com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    }
+                }
+            }
+        },
         "/api/itens": {
             "get": {
                 "tags": [
@@ -37,7 +84,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -69,7 +121,12 @@
                     "422": {
                         "description": "Erro de validação"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/itens/{id}": {
@@ -103,7 +160,12 @@
                     "404": {
                         "description": "Item não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -148,7 +210,12 @@
                     "422": {
                         "description": "Erro de validação"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -173,117 +240,162 @@
                     "404": {
                         "description": "Item não encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "schemas": {
-            "StoreItemRequest": {
-                "title": "Store Item Request",
-                "description": "Request body para criação de Item",
+            "LoginRequest": {
+                "title": "Login Request",
+                "description": "Credenciais para obtenção do token",
                 "required": [
-                    "nome",
-                    "preco"
+                    "email",
+                    "password"
                 ],
                 "properties": {
-                    "nome": {
+                    "email": {
                         "type": "string",
-                        "example": "Notebook"
+                        "format": "email",
+                        "example": "admin@example.com"
                     },
-                    "descricao": {
+                    "password": {
                         "type": "string",
-                        "example": "Notebook de alta performance"
+                        "format": "password",
+                        "example": "senha123"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreItemRequest": {
+                "title": "Requisição para Criação de Cabeçalho de Nota",
+                "required": [
+                    "TIPO",
+                    "DATA_EMISSAO"
+                ],
+                "properties": {
+                    "TIPO": {
+                        "type": "string",
+                        "example": "SAIDA"
                     },
-                    "preco": {
+                    "PEDIDO_CLIENTE": {
+                        "type": "string",
+                        "example": "PED-2023-001"
+                    },
+                    "CONTROLE_DE_NOTA": {
+                        "type": "integer",
+                        "example": 9876
+                    },
+                    "DATA_EMISSAO": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01 12:00:00"
+                    },
+                    "TOTAL_NOTA": {
                         "type": "number",
                         "format": "float",
                         "example": 4500.5
                     },
-                    "status": {
+                    "SITUACAO": {
                         "type": "string",
-                        "example": "ativo",
-                        "enum": [
-                            "ativo",
-                            "inativo"
-                        ]
+                        "example": "F"
                     }
                 },
                 "type": "object"
             },
             "UpdateItemRequest": {
-                "title": "Update Item Request",
-                "description": "Request body para atualização de Item",
+                "title": "Requisição para Atualização de Cabeçalho de Nota",
                 "properties": {
-                    "nome": {
+                    "TIPO": {
                         "type": "string",
-                        "example": "Notebook Atualizado"
+                        "example": "SAIDA"
                     },
-                    "descricao": {
+                    "PEDIDO_CLIENTE": {
                         "type": "string",
-                        "example": "Descricao atualizada"
+                        "example": "PED-2023-001"
                     },
-                    "preco": {
+                    "CONTROLE_DE_NOTA": {
+                        "type": "integer",
+                        "example": 9876
+                    },
+                    "DATA_EMISSAO": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01 12:00:00"
+                    },
+                    "TOTAL_NOTA": {
                         "type": "number",
                         "format": "float",
-                        "example": 4800
+                        "example": 4500.5
                     },
-                    "status": {
+                    "SITUACAO": {
                         "type": "string",
-                        "example": "inativo",
-                        "enum": [
-                            "ativo",
-                            "inativo"
-                        ]
+                        "example": "F"
                     }
                 },
                 "type": "object"
             },
             "Item": {
-                "title": "Item",
-                "description": "Modelo de Item",
+                "title": "Cabeçalho de Nota",
+                "description": "Modelo representando os dados do cabeçalho de nota do banco Firebird",
+                "required": [
+                    "TIPO",
+                    "DATA_EMISSAO"
+                ],
                 "properties": {
-                    "id": {
+                    "INTERNO": {
                         "type": "integer",
-                        "example": 1
+                        "example": 12345
                     },
-                    "nome": {
+                    "TIPO": {
                         "type": "string",
-                        "example": "Notebook"
+                        "example": "SAIDA"
                     },
-                    "descricao": {
+                    "PEDIDO_CLIENTE": {
                         "type": "string",
-                        "example": "Notebook de alta performance"
+                        "example": "PED-2023-001"
                     },
-                    "preco": {
+                    "CONTROLE_DE_NOTA": {
+                        "type": "integer",
+                        "example": 9876
+                    },
+                    "DATA_EMISSAO": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-01 12:00:00"
+                    },
+                    "TOTAL_NOTA": {
                         "type": "number",
                         "format": "float",
                         "example": 4500.5
                     },
-                    "status": {
+                    "SITUACAO": {
                         "type": "string",
-                        "example": "ativo",
-                        "enum": [
-                            "ativo",
-                            "inativo"
-                        ]
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2023-10-01T12:00:00Z"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2023-10-01T12:00:00Z"
+                        "example": "F"
                     }
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Insira o token obtido na rota de login",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
         }
     },
     "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Autenticação"
+        },
         {
             "name": "Itens",
             "description": "Itens"
